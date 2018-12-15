@@ -1,0 +1,88 @@
+---
+title: "Project 630"
+author: "Harpreet Singh"
+date: "12/11/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise 1
+
+Describe your data set. What is the source (URL), and why does this data set interest you? Describe the context of the data (e.g., is it part of a news article or blog, a scientific study, or a survey poll?). What are the variables (columns) of interest? Are these variables numeric or categorical? What are the dimensions of the data set (number of rows and columns)?
+
+```{r}
+# The Dataset is an experimental data on Human Activity (Walk and Run). Data is collected from Inertial Measurement Units (IMUs) attached to an individual’s feet. Raw data includes linear accelerations and angular velocity in all three dimensions.  The data is obtained from the research of Dr. Bradford Bennett (CSU East Bay, Kinesiology Department). We have hosted the data at (https://github.com/sandhuharpreetsingh239/activity_withlabels/raw/master/activity_withlabels.csv).
+# It interests us because this it is one of the research being done leading companies like Apple and Google as well, to support fitness and health-based applications. The data is a single experiment conducted having measures of both walking and running (also no motion included).  The Z direction is the direction of motion.
+# The variables in the data are:
+# Timestamp: The date and time at which the reading was recorded. Used as an index.
+# Label: 1 for walking, 2 for running and 0 for neither running nor walking [Categorical]
+# Accelerometer X: Accelerometer reading in X-axis. [Numeric]
+# Accelerometer Y: Accelerometer reading in Y-axis. [Numeric]
+# Accelerometer Z: Accelerometer reading in Z-axis. [Numeric]
+# Gyroscope X: Gyroscope reading in X-axis. [Numeric]
+# Gyroscope Y: Gyroscope reading in Y-axis. [Numeric]
+# Gyroscope Z: Gyroscope reading in Z-axis. [Numeric]
+# Magnetometer X: Magnetometer reading in X-axis. [Numeric]
+# Magnetometer Y: Magnetometer reading in Y-axis. [Numeric]
+# Magnetometer Z: Magnetometer reading in Z-axis. [Numeric]
+# Temperature: Outside Temperature in degree centigrade
+# 
+# Dimensions: 119900 rows, 12 columns
+# For lower processing, we read fewer than the total rows.
+
+```
+
+
+## Exercise 2
+
+Compute summary statistics and create graphics for 2-4 variables in your data set. Write a paragraph or two   summarizing the main findings from your exploratory analysis.
+
+```{r}
+data_url <- "https://github.com/sandhuharpreetsingh239/activity_withlabels/raw/master/activity_withlabels.csv"
+activity_data <- read.csv(data_url, nrow=66000)
+
+summary(activity_data)
+
+walk<- subset(activity_data, activity_data$label==1)
+head(walk)
+
+
+run <- subset(activity_data, activity_data$label==2)
+head(run)
+
+time_col <- 1:66000
+
+hist(walk$Accelerometer.Z, xlim = c(-10,10), breaks=100)
+qqnorm(walk$Accelerometer.Z)
+qqline(walk$Accelerometer.Z)
+
+hist(run$Accelerometer.Z, xlim = c(-10,10), breaks=100)
+qqnorm(run$Accelerometer.Z)
+qqline(run$Accelerometer.Z)
+
+plot(time_col, activity_data$Accelerometer.Z)
+plot(activity_data$Accelerometer.Z, activity_data$label)
+```
+
+## Exercise 3
+
+Pick one or two variables. Calculate a confidence interval and/or conduct a hypothesis test. Make sure to discuss the assumptions for the test and/or interval, and whether or not you think they are satisfied. For a confidence interval, write down the parameter(s) the interval is for (e.g., µ, µ1 − µ2, p, or p1 − p2), the formula you used, and the interpretation of the interval. For a hypothesis test, write down the null and alternative hypothesis, test statistic, p-value, and state your decision.
+
+```{r}
+mu_az_walk <- mean(walk$Accelerometer.Z)
+mu_az_run <- mean(run$Accelerometer.Z)
+
+t.test(run$Accelerometer.Z, walk$Accelerometer.Z)
+```
+
+## Exercise 4
+
+What are the conclusions of your statistical analysis? Explain in the context of the data, and try to use terminology that someone without much statistical training would understand.
+
+```{r}
+
+```
+
